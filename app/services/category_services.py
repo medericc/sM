@@ -23,3 +23,8 @@ def update_category(category_id, name=None, description=None):
         db.session.commit()
     return category
 
+def get_topics_by_category(category_id):
+    category = Category.query.get(category_id)
+    if not category:
+        return None
+    return category.topics

@@ -7,8 +7,8 @@ from .reply_services import create_reply, get_replies, update_reply, delete_repl
 from .like_services import like_reply, unlike_reply, get_likes
 from .file_services import save_file
 from .follow_services import follow_user, unfollow_user, get_followers, get_following
-from .forum_services import create_forum, get_all_forums
-from .category_services import create_category, get_categories, update_category, get_category_by_id
+from .forum_services import create_forum, list_forums, update_forum, delete_forum
+from .category_services import create_category, get_categories, update_category, get_topics_by_category, get_category_by_id
 from .admin_services import get_admins, add_admin, remove_admin
 from .search_services import search_users, search_topics, search_replies
 # from .report_services import report_user, report_topic, report_reply, get_reports, resolve_report
