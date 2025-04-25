@@ -28,3 +28,10 @@ def delete_topic(topic, user_id):
         target_id=topic.id,
         details=f"Topic '{topic.title}' deleted"
     )
+
+def list_topics():
+    """
+    Retrieve all topics from the database.
+    """
+    topics = Topic.query.all()
+    return [topic.to_dict() for topic in topics]

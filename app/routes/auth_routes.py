@@ -7,7 +7,22 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.json
-    user = register_user(data['username'], data['email'], data['password'])
+    
+    # Vérifiez que les champs obligatoires sont présents
+    required_fields = ['username', 'email', 'password', 'role', 'badge_level', 'branch']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'error': f"'{field}' is required"}), 400
+
+    # Créez l'utilisateur
+    user = register_user(
+        username=data['username'],
+        email=data['email'],
+        password=data['password'],
+        role=data['role'],
+        badge_level=data['badge_level'],
+        branch=data['branch']
+    )
     return jsonify(user.serialize()), 201
 
 @auth_bp.route('/login', methods=['POST'])

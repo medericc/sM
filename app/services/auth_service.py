@@ -2,9 +2,16 @@ from app.models.user import User
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
-def register_user(username, email, password):
+def register_user(username, email, password, role, badge_level, branch):
     hashed = generate_password_hash(password)
-    user = User(username=username, email=email, password_hash=hashed)
+    user = User(
+        username=username,
+        email=email,
+        password_hash=hashed,
+        role=role,
+        badge_level=badge_level,
+        branch=branch
+    )
     db.session.add(user)
     db.session.commit()
     return user

@@ -78,3 +78,18 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User(id={self.id}, username={self.username})>"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "role": self.role,
+            "badge_level": self.badge_level,
+            "branch": self.branch,
+            "parish": self.parish,
+            "tiktok_handle": self.tiktok_handle,
+            "discord_id": self.discord_id,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat()
+        }
