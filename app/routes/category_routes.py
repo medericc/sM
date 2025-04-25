@@ -1,11 +1,10 @@
 from flask import Blueprint, jsonify
-from app.services.category_services import get_topics_by_category
+from app.services.category_service import get_topics_by_category, get_categories
 
 category_bp = Blueprint('category', __name__)
 
-@category_bp.route('/categories', methods=['GET'])
+@category_bp.route('/', methods=['GET'])
 def get_all_categories():
-    from app.services.category_services import get_categories  # <-- attention ici
     categories = get_categories()
     return jsonify([
         {
@@ -15,9 +14,7 @@ def get_all_categories():
         } for cat in categories
     ])
 
-
-
-@category_bp.route('/categories/<int:category_id>/topics', methods=['GET'])
+@category_bp.route('/<int:category_id>/topics', methods=['GET'])
 def get_category_topics(category_id):
     topics = get_topics_by_category(category_id)
     if topics is None:

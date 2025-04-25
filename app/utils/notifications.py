@@ -1,5 +1,5 @@
 from app.models.notification import Notification
-from . import db
+from app import db
 
 def create_notification(user_id, message, notif_type):
     notif = Notification(

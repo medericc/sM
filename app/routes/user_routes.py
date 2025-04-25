@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from ..services.user_service import get_profile, update_profile
+from ..services.user_service import get_user_by_username, update_user
 
 user_bp = Blueprint('user', __name__)
 

@@ -6,7 +6,7 @@ from .reply_routes import reply_bp
 from .like_routes import like_bp
 from .message_routes import message_bp
 from .notification_routes import notification_bp
-from .file_routes import file_bp
+# from .file_routes import file_bp
 from .follow_routes import follow_bp
 from .category_routes import category_bp
 
@@ -18,6 +18,6 @@ def register_routes(app):
     app.register_blueprint(like_bp, url_prefix="/api/likes")
     app.register_blueprint(message_bp, url_prefix="/api/messages")
     app.register_blueprint(notification_bp, url_prefix="/api/notifications")
-    app.register_blueprint(file_bp, url_prefix="/api/files")
+    # app.register_blueprint(file_bp, url_prefix="/api/files")
     app.register_blueprint(follow_bp, url_prefix="/api/follow")
     app.register_blueprint(category_bp, url_prefix="/api/categories")

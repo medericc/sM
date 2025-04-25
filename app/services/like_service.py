@@ -1,5 +1,5 @@
-from app.models.topic_like import TopicLike
-from app.models.reply_like import ReplyLike
+from app.models.like import TopicLike
+from app.models.like import ReplyLike
 from app import db
 
 def like_topic(user_id, topic_id):

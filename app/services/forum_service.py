@@ -1,7 +1,8 @@
 from flask import jsonify
 from ..models import Forum, User
 from .. import db
-from ..utils.auth_utils import check_permissions
+from ..utils.permissions import check_permissions
+from .log_service import log_action # Make sure this is the correct path
 
 def list_forums():
     forums = Forum.query.all()
@@ -28,7 +29,7 @@ def delete_forum(forum_id, user_id):
         return jsonify({'error': 'Forbidden'}), 403
     db.session.delete(forum)
     db.session.commit()
-       log_action(
+    log_action(
         user_id=user_id,
         action="delete_forum",
         target_type="forum",
