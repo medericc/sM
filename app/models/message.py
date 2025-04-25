@@ -1,4 +1,4 @@
-from . import db
+from app import db
 from datetime import datetime
 
 class Message(db.Model):
@@ -11,8 +11,19 @@ class Message(db.Model):
     read = db.Column(db.Boolean, default=False)
     sent_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    sender = db.relationship("User", foreign_keys=[sender_id], back_populates="sent_messages")
-    receiver = db.relationship("User", foreign_keys=[receiver_id], back_populates="received_messages")
+    # Relation avec l'expéditeur
+    sender = db.relationship(
+        "User",
+        foreign_keys=[sender_id],
+        back_populates="sent_messages"
+    )
+
+    # Relation avec le destinataire
+    receiver = db.relationship(
+        "User",
+        foreign_keys=[receiver_id],
+        back_populates="received_messages"
+    )
 
     def __repr__(self):
         return f"<Message(from={self.sender_id} to={self.receiver_id})>"

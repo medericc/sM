@@ -16,3 +16,6 @@ class Reply(db.Model):
     parent = db.relationship("Reply", remote_side=[id], back_populates="children")
     children = db.relationship("Reply", back_populates="parent", cascade="all, delete-orphan")
     likes = db.relationship("ReplyLike", back_populates="reply", cascade="all, delete-orphan")
+
+    def __repr__(self):
+        return f"<Reply(id={self.id}, content='{self.content[:30]}')>"

@@ -11,3 +11,4 @@ from .notification import Notification
 from .forum import Forum
 from .file import File
 from .log import Log
+from .watched_forum import WatchedForum 

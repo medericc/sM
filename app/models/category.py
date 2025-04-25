@@ -1,5 +1,5 @@
-from . import db
 from datetime import datetime
+from . import db
 
 class Category(db.Model):
     __tablename__ = 'categories'
@@ -9,6 +9,7 @@ class Category(db.Model):
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relation vers Topic
     topics = db.relationship("Topic", back_populates="category", cascade="all, delete-orphan")
 
     def __repr__(self):

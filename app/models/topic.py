@@ -1,8 +1,9 @@
-from app import db
 from datetime import datetime
+from . import db
 
 class Topic(db.Model):
     __tablename__ = 'topics'
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     content = db.Column(db.Text)
@@ -10,7 +11,21 @@ class Topic(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relation avec Reply
     replies = db.relationship("Reply", back_populates="topic", cascade="all, delete-orphan")
 
+    # Relation avec User
     user = db.relationship('User', backref='topics')
-    category = db.relationship('Category', backref='topics')
+
+    # Relation avec Category
+    category = db.relationship('Category', back_populates='topics')
+
+    # Relation avec TopicLike
+    likes = db.relationship("TopicLike", back_populates="topic", cascade="all, delete-orphan")
+
+    # Relation avec File
+    files = db.relationship("File", back_populates="topic", cascade="all, delete-orphan")
+
+    def __repr__(self):
+        return f"<Topic(id={self.id}, title='{self.title}')>"

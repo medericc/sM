@@ -18,8 +18,40 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    # Relation avec les fichiers uploadés
+    files = db.relationship(
+        "File",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    # Relation avec les forums créés
+    created_forums = db.relationship(
+        "Forum",
+        back_populates="created_by_user",
+        cascade="all, delete-orphan"
+    )
+
+    # Relation avec les messages envoyés
+    sent_messages = db.relationship(
+        "Message",
+        foreign_keys="[Message.sender_id]",
+        back_populates="sender",
+        cascade="all, delete-orphan"
+    )
+
+    # Relation avec les messages reçus
+    received_messages = db.relationship(
+        "Message",
+        foreign_keys="[Message.receiver_id]",
+        back_populates="receiver",
+        cascade="all, delete-orphan"
+    )
+
+    # Relation avec Log
     logs = db.relationship("Log", back_populates="user", cascade="all, delete-orphan")
 
+    # Relations pour le suivi (following/followers)
     following = db.relationship(
         'Follow',
         foreign_keys='Follow.following_user_id',
@@ -31,6 +63,16 @@ class User(db.Model):
         'Follow',
         foreign_keys='Follow.followed_user_id',
         back_populates='followed_user',
+        cascade="all, delete-orphan"
+    )
+
+    # Forums suivis
+    watched_forums = db.relationship("WatchedForum", back_populates="user", cascade="all, delete-orphan")
+
+    # Relation avec les notifications
+    notifications = db.relationship(
+        "Notification",
+        back_populates="user",
         cascade="all, delete-orphan"
     )
 
