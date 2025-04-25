@@ -25,11 +25,25 @@ def register():
     )
     return jsonify(user.serialize()), 201
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
-    data = request.json
-    user = authenticate_user(data['email'], data['password'])
-    if not user:
-        return jsonify({'error': 'Invalid credentials'}), 401
-    access_token = create_access_token(identity=user.id)
-    return jsonify({'access_token': access_token})
+    if request.method == 'OPTIONS':
+        # Gestion de la requête préliminaire
+        response = jsonify({'message': 'CORS preflight successful'})
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        return response, 200
+
+    try:
+        data = request.json
+        user = authenticate_user(data['email'], data['password'])
+        if not user:
+            return jsonify({'error': 'Invalid credentials'}), 401
+        access_token = create_access_token(identity=user.id)
+        response = jsonify({'access_token': access_token})
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        return response, 200
+    except Exception as e:
+        print(f"Error in /login: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
