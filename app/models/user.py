@@ -1,8 +1,10 @@
 from app import db
 from datetime import datetime
+from .follow import Follow  
 
 class User(db.Model):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -15,3 +17,22 @@ class User(db.Model):
     discord_id = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    logs = db.relationship("Log", back_populates="user", cascade="all, delete-orphan")
+
+    following = db.relationship(
+        'Follow',
+        foreign_keys='Follow.following_user_id',
+        back_populates='following_user',
+        cascade="all, delete-orphan"
+    )
+
+    followers = db.relationship(
+        'Follow',
+        foreign_keys='Follow.followed_user_id',
+        back_populates='followed_user',
+        cascade="all, delete-orphan"
+    )
+
+    def __repr__(self):
+        return f"<User(id={self.id}, username={self.username})>"

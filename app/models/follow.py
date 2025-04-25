@@ -8,6 +8,7 @@ class Follow(db.Model):
     followed_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relations vers User
     following_user = db.relationship("User", foreign_keys=[following_user_id], back_populates="following")
     followed_user = db.relationship("User", foreign_keys=[followed_user_id], back_populates="followers")
 

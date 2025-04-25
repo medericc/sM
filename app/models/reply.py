@@ -11,7 +11,6 @@ class Reply(db.Model):
     parent_reply_id = db.Column(db.Integer, db.ForeignKey('replies.id'), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
     topic = db.relationship("Topic", back_populates="replies")
     user = db.relationship("User")
     parent = db.relationship("Reply", remote_side=[id], back_populates="children")

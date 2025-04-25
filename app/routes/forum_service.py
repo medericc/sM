@@ -28,4 +28,11 @@ def delete_forum(forum_id, user_id):
         return jsonify({'error': 'Forbidden'}), 403
     db.session.delete(forum)
     db.session.commit()
+       log_action(
+        user_id=user_id,
+        action="delete_forum",
+        target_type="forum",
+        target_id=forum_id,
+        details=f"Forum '{forum.title}' supprimé par user_id={user_id}"
+    )
     return jsonify({'message': 'Forum deleted'})
