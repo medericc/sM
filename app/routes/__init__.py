@@ -20,4 +20,4 @@ def register_routes(app):
     app.register_blueprint(notification_bp, url_prefix="/api/notifications")
     app.register_blueprint(file_bp, url_prefix="/api/files")
     app.register_blueprint(follow_bp, url_prefix="/api/follow")
-    app.register_blueprint(category_bp)
+    app.register_blueprint(category_bp, url_prefix="/api/categories")
