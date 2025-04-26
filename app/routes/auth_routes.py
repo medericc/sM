@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..services.auth_service import register_user, authenticate_user
+from ..services.auth_service import register_user, validate_registration_data, authenticate_user
 from flask_jwt_extended import create_access_token
 
 auth_bp = Blueprint('auth', __name__)
@@ -7,11 +7,14 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.json
-    
-    required_fields = ['username', 'email', 'password', 'role', 'badge_level', 'branch']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({'error': f"'{field}' is required"}), 400
+
+    # Validation
+    error = validate_registration_data(data)
+    if error:
+        return jsonify({'error': error}), 400
+
+    tiktok_handle = data.get('tiktok_handle')  # facultatif
+    discord_id = data.get('discord_id')        # facultatif
 
     user = register_user(
         username=data['username'],
@@ -19,9 +22,13 @@ def register():
         password=data['password'],
         role=data['role'],
         badge_level=data['badge_level'],
-        branch=data['branch']
+        branch=data['branch'],
+        parish=data['parish'],
+        tiktok_handle=tiktok_handle,
+        discord_id=discord_id,
     )
     return jsonify(user.serialize()), 201
+
 
 @auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
@@ -34,7 +41,10 @@ def login():
 
     try:
         data = request.json
+        
+        print('Login data received:', data)
         user = authenticate_user(data['email'], data['password'])
+        
         if not user:
             return jsonify({'error': 'Invalid credentials'}), 401
         access_token = create_access_token(identity=user.id)
