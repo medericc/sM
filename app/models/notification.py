@@ -15,3 +15,12 @@ class Notification(db.Model):
 
     def __repr__(self):
         return f"<Notification(id={self.id}, user_id={self.user_id}, type='{self.type}')>"
+    def to_dict(self):
+    return {
+        "id": self.id,
+        "user_id": self.user_id,
+        "message": self.message,
+        "type": self.type,
+        "is_read": self.is_read,
+        "created_at": self.created_at.isoformat()
+    }

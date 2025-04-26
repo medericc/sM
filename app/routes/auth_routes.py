@@ -8,13 +8,11 @@ auth_bp = Blueprint('auth', __name__)
 def register():
     data = request.json
     
-    # Vérifiez que les champs obligatoires sont présents
     required_fields = ['username', 'email', 'password', 'role', 'badge_level', 'branch']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f"'{field}' is required"}), 400
 
-    # Créez l'utilisateur
     user = register_user(
         username=data['username'],
         email=data['email'],
@@ -28,7 +26,6 @@ def register():
 @auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
     if request.method == 'OPTIONS':
-        # Gestion de la requête préliminaire
         response = jsonify({'message': 'CORS preflight successful'})
         response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
         response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')

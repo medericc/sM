@@ -9,7 +9,7 @@ from .notification_routes import notification_bp
 # from .file_routes import file_bp
 from .follow_routes import follow_bp
 from .category_routes import category_bp
-
+from .search_routes import search_bp
 def register_routes(app):
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(user_bp, url_prefix="/api/users")
@@ -21,3 +21,4 @@ def register_routes(app):
     # app.register_blueprint(file_bp, url_prefix="/api/files")
     app.register_blueprint(follow_bp, url_prefix="/api/follow")
     app.register_blueprint(category_bp, url_prefix="/api/categories")
+    app.register_blueprint(search_bp, url_prefix="/api/search")
